@@ -51,30 +51,22 @@ ENV PATH $COMPOSER_HOME/vendor/bin:$PATH
 
 RUN rm -rf /var/www/html
 
-RUN cd /var/www \
-    && git clone -b 2.1 --single-branch https://github.com/magento/magento2.git html
+RUN cd /var/www && git clone -b 2.1 --single-branch https://github.com/magento/magento2.git html
 
-COPY ./auth.json /var/www/html/auth.json
+COPY ./auth.json /var/www/html
+COPY ./install-magento.sh /var/www/html
+RUN chmod +x /var/www/html/install-magento.sh
 
-RUN cd /var/www/html && composer install
-
-RUN bin/magento setup:install \
-    --admin-firstname=$MAGENTO_ADMIN_FIRSTNAME \
-    --admin-lastname=$MAGENTO_ADMIN_LASTNAME \
-    --admin-email=$MAGENTO_ADMIN_EMAIL \
-    --admin-user=$MAGENTO_ADMIN_USERNAME \
-    --admin-password=$MAGENTO_ADMIN_PASSWORD \
-    --base-url=$MAGENTO_URL \
-    --backend-frontname=$MAGENTO_ADMIN_URI \
-    --db-host=$MYSQL_HOST \
-    --db-name=$MYSQL_DATABASE \
-    --db-user=$MYSQL_USER \
-    --db-password=$MYSQL_PASSWORD \
-    --timezone=$MAGENTO_TIMEZONE \
-    --currency=$MAGENTO_DEFAULT_CURRENCY \
-    --use-rewrites=$USE_REWRITE
-
-RUN find . -type d -exec chmod 770 {} \; find . -type f -exec chmod 660 {} \; chmod u+x bin/magento
+RUN chsh -s /bin/bash www-data
 RUN chown -R www-data:www-data /var/www
+RUN su www-data -c "cd /var/www/html && composer install"
+RUN cd /var/www/html \
+    && find . -type d -exec chmod 770 {} \; \
+    && find . -type f -exec chmod 660 {} \; \
+    && chmod u+x bin/magento
+
+RUN ./install-magento.sh
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+WORKDIR /var/www/html
