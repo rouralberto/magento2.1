@@ -1,0 +1,17 @@
+version: '3.2'
+
+services:
+  web:
+    build:
+      context: .
+    domainname: tilecity.docker
+    hostname: tilecity
+    ports:
+      - "80:80"
+    environment:
+      - ENVIRONMENT=dev
+      - DEBIAN_FRONTEND=noninteractive
+      - COMPOSER_HOME="/root/composer"
+      - GIT_TRACE_PACKET=1
+      - GIT_TRACE=1
+      - GIT_CURL_VERBOSE=1

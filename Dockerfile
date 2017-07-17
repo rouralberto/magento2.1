@@ -45,17 +45,14 @@ RUN docker-php-ext-install bz2 calendar iconv intl xsl mbstring mcrypt mysqli op
     && echo "memory_limit=2048M" > /usr/local/etc/php/conf.d/memory-limit.ini
 
 # Install Composer.
-ENV COMPOSER_HOME /root/composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 ENV PATH $COMPOSER_HOME/vendor/bin:$PATH
 
 RUN rm -rf /var/www/html
 
-RUN cd /var/www && git clone -b 2.1 --single-branch https://github.com/magento/magento2.git html
+RUN cd /var/www && git clone -b 2.1 --single-branch --verbose https://github.com/magento/magento2.git html
 
 COPY ./auth.json /var/www/html
-COPY ./install-magento.sh /var/www/html
-RUN chmod +x /var/www/html/install-magento.sh
 
 RUN chsh -s /bin/bash www-data
 RUN chown -R www-data:www-data /var/www
@@ -65,8 +62,8 @@ RUN cd /var/www/html \
     && find . -type f -exec chmod 660 {} \; \
     && chmod u+x bin/magento
 
-RUN ./install-magento.sh
-
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-WORKDIR /var/www/html
+COPY ./entrypoint.sh /var/www/html/entrypoint.sh
+RUN chmod u+x /var/www/html/entrypoint.sh
+ENTRYPOINT ["/var/www/html/entrypoint.sh"]
