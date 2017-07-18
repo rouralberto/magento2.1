@@ -62,8 +62,11 @@ RUN cd /var/www \
     && cd /var/www/html \
     && chmod u+x bin/magento
 
-# Runs magento setup:install
+# Script to automate magento setup:install
 COPY ./install.sh /var/www/html/
-COPY ./auth.json /var/www/html/
 
-RUN chmod u+x install.sh
+# Script to automate a complete static files refresh
+COPY ./publish-static.sh /var/www/html/
+
+# Write proper permissions to scripts
+RUN chmod u+x install.sh publish-static.sh
