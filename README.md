@@ -14,20 +14,20 @@ After running this `Dockerfile` you will have:
 
 ## Requirements
 Before running the container, you should prepare the following environment variables:
-- $LANG
-- $LANGUAGE
-- $LC_ALL
-- $MAGENTO_ADMIN_FIRSTNAME
-- $MAGENTO_ADMIN_LASTNAME
-- $MAGENTO_ADMIN_EMAIL
-- $MAGENTO_ADMIN_USERNAME
-- $MAGENTO_ADMIN_PASSWORD
-- $MAGENTO_TIMEZONE
-- $MAGENTO_DEFAULT_CURRENCY
-- $MYSQL_HOST
-- $MYSQL_USER
-- $MYSQL_PASSWORD
-- $MYSQL_DATABASE
+- `$LANG`
+- `$LANGUAGE`
+- `$LC_ALL`
+- `$MAGENTO_ADMIN_FIRSTNAME`
+- `$MAGENTO_ADMIN_LASTNAME`
+- `$MAGENTO_ADMIN_EMAIL`
+- `$MAGENTO_ADMIN_USERNAME`
+- `$MAGENTO_ADMIN_PASSWORD`
+- `$MAGENTO_TIMEZONE`
+- `$MAGENTO_DEFAULT_CURRENCY`
+- `$MYSQL_HOST`
+- `$MYSQL_USER`
+- `$MYSQL_PASSWORD`
+- `$MYSQL_DATABASE`
 
 Also, you'll need a database running on `MySQL 5.6+`, as this container only has the web service.
 
