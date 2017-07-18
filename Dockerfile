@@ -2,7 +2,7 @@ FROM php:7.0-apache
 MAINTAINER Alberto Roura <mail@albertoroura.com>
 
 # Install base packages
-RUN apt-get update && apt-get install -y \
+RUN apt-get update -qq && apt-get install -y \
     locales -qq \
     && locale-gen en_AU \
     && locale-gen en_AU.UTF-8 \
@@ -20,10 +20,10 @@ RUN apt-get update && apt-get install -y \
         libbz2-dev \
         libmemcached-dev \
         libmysqlclient-dev \
-        libxslt-dev \
         libsasl2-dev \
-        git \
+        libxslt-dev \
         curl \
+        git \
         libfreetype6-dev \
         libicu-dev \
         libjpeg-dev \
@@ -56,9 +56,11 @@ RUN docker-php-ext-install bz2 calendar iconv intl xsl mbstring mcrypt mysqli op
 RUN cd /var/www \
     && rm -rf html \
     && git clone -b 2.1 --single-branch --verbose https://github.com/magento/magento2.git html \
-    && cd html \
-    && composer install \
-    && chmod u+x /var/www/html/bin/magento
+    && chsh -s /bin/bash www-data \
+    && chown -R www-data:www-data /var/www \
+    && su www-data -c "cd /var/www/html && composer install" \
+    && cd /var/www/html \
+    && chmod u+x bin/magento
 
 # Runs magento setup:install
 COPY ./install.sh /var/www/html/
