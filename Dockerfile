@@ -62,7 +62,9 @@ RUN cd /var/www \
     && cd /var/www/html \
     && chmod u+x bin/magento \
     && mv package.json.sample package.json \
-    && npm install
+    && npm install \
+    && mv Gruntfile.js.sample Gruntfile.js \
+    && grunt
 
 # Script to automate magento setup:install
 COPY ./install.sh /var/www/html/
