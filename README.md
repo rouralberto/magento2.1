@@ -29,7 +29,7 @@ Before running the container, you should prepare the following environment varia
 - $MYSQL_PASSWORD
 - $MYSQL_DATABASE
 
-Also, you'll need a database, as this container only has the web service.
+Also, you'll need a database running on `MySQL 5.6+`, as this container only has the web service.
 
 ### How to run
 - Add `magento2.docker` at the end of your `/etc/hosts` file (i.e., `127.0.0.1 magento2.docker`)
