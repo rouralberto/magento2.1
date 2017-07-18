@@ -1,4 +1,4 @@
-# Magento 2.1 Dockerfile
+# Magento 2.1.x Dockerfile
 - Based on [php:7.0-apache](https://github.com/docker-library/php/blob/ddc7084c8a78ea12f0cfdceff7d03c5a530b787e/7.0/apache/Dockerfile).
 
 [![](https://images.microbadger.com/badges/image/roura/magento2.1.svg)](https://microbadger.com/images/roura/magento2.1)
@@ -11,6 +11,7 @@ After running this `Dockerfile` you will have:
 - Debian Jessie
 - PHP 7.0
 - Apache 2.4
+- Magento 2.1.x
 - Composer
 - Node
 - Grunt
@@ -37,4 +38,5 @@ You'll need a database running on `MySQL 5.6+`, as this container only has the `
 ### How to run
 - Add `magento2.docker` at the end of your `/etc/hosts` file (i.e., `127.0.0.1 magento2.docker`)
 - Run `docker-compose build && docker-compose up -d`
+- Enter in the container with `docker exec -it <container-name> bash` and run `./install.sh`
 - Visit your newly-created [magento2.docker](http://magento2.docker/)

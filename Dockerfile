@@ -60,7 +60,9 @@ RUN cd /var/www \
     && chown -R www-data:www-data /var/www \
     && su www-data -c "cd /var/www/html && composer install" \
     && cd /var/www/html \
-    && chmod u+x bin/magento
+    && chmod u+x bin/magento \
+    && mv package.json.sample package.json \
+    && npm install
 
 # Script to automate magento setup:install
 COPY ./install.sh /var/www/html/
