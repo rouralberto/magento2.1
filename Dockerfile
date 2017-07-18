@@ -2,7 +2,7 @@ FROM php:7.0-apache
 MAINTAINER Alberto Roura <mail@albertoroura.com>
 
 # Install base packages
-RUN apt-get update -qq && apt-get install -y \
+RUN apt-get update && apt-get install -y \
     locales -qq \
     && locale-gen en_AU \
     && locale-gen en_AU.UTF-8 \
@@ -16,13 +16,14 @@ RUN apt-get update -qq && apt-get install -y \
         ca-certificates \
         python-software-properties \
         build-essential \
+        xz-utils \
         libbz2-dev \
         libmemcached-dev \
         libmysqlclient-dev \
-        libsasl2-dev \
         libxslt-dev \
-        curl \
+        libsasl2-dev \
         git \
+        curl \
         libfreetype6-dev \
         libicu-dev \
         libjpeg-dev \
@@ -35,35 +36,34 @@ RUN apt-get update -qq && apt-get install -y \
         zip \
         nano
 
-# Install PHP extensions.
+# Install Project dependencies (PHP/Composer/Node/Grunt), then clean temporary files
 RUN docker-php-ext-install bz2 calendar iconv intl xsl mbstring mcrypt mysqli opcache pdo_mysql pdo_pgsql pgsql zip \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install gd \
     && pecl install memcached redis \
     && docker-php-ext-enable memcached.so redis.so \
     && a2enmod rewrite \
-    && echo "memory_limit=2048M" > /usr/local/etc/php/conf.d/memory-limit.ini
+    && echo "memory_limit=2048M" > /usr/local/etc/php/conf.d/memory-limit.ini \
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && export PATH=$COMPOSER_HOME/vendor/bin:$PATH \
+    && cd /tmp \
+    && curl -sL https://deb.nodesource.com/setup_6.x | bash - \
+    && apt-get update && apt-get install -y nodejs \
+    && npm install -g grunt-cli \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Install Composer.
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-ENV PATH $COMPOSER_HOME/vendor/bin:$PATH
+# Clone Magento 2.1
+RUN cd /var/www \
+    && rm -rf html \
+    && git clone -b 2.1 --single-branch --verbose https://github.com/magento/magento2.git html \
+    && cd html \
+    && composer install \
+    && chmod u+x /var/www/html/bin/magento
 
-RUN rm -rf /var/www/html
+# Runs magento setup:install
+COPY ./install.sh /var/www/html/
+COPY ./auth.json /var/www/html/
 
-RUN cd /var/www && git clone -b 2.1 --single-branch --verbose https://github.com/magento/magento2.git html
-
-COPY ./auth.json /var/www/html
-
-RUN chsh -s /bin/bash www-data
-RUN chown -R www-data:www-data /var/www
-RUN su www-data -c "cd /var/www/html && composer install"
-RUN cd /var/www/html \
-    && find . -type d -exec chmod 770 {} \; \
-    && find . -type f -exec chmod 660 {} \; \
-    && chmod u+x bin/magento
-
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-COPY ./entrypoint.sh /var/www/html/entrypoint.sh
-RUN chmod u+x /var/www/html/entrypoint.sh
-ENTRYPOINT ["/var/www/html/entrypoint.sh"]
+RUN chmod u+x install.sh \
+    && ./install.sh \
+    && chown -R www-data:www-data /var/www/html
