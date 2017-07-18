@@ -14,5 +14,5 @@ After running this `Dockerfile` you will have:
 
 ### How to run
 - Add `magento2.docker` to your `/etc/hosts` file (i.e., `127.0.0.1 magento2.docker`).
-- Run `docker-compose build && docker-compose up-d`.
-- Visit [magento2.docker](http://magento2.docker/).
+- Run `docker-compose build && docker-compose up -d`.
+- Visit your newly-created [magento2.docker](http://magento2.docker/).
