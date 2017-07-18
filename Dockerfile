@@ -66,6 +66,4 @@ RUN cd /var/www \
 COPY ./install.sh /var/www/html/
 COPY ./auth.json /var/www/html/
 
-RUN chmod u+x install.sh \
-    && ./install.sh \
-    && chown -R www-data:www-data /var/www/html
+RUN chmod u+x install.sh
