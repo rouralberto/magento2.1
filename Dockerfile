@@ -59,6 +59,7 @@ RUN cd /var/www \
     && chsh -s /bin/bash www-data \
     && chown -R www-data:www-data /var/www \
     && su www-data -c "cd /var/www/html && composer install" \
+    && su www-data -c "cd /var/www/html && composer require mageplaza/magento-2-blog-extension:^2.4.3" \
     && cd /var/www/html \
     && chmod u+x bin/magento \
     && mv package.json.sample package.json \
