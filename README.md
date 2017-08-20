@@ -12,6 +12,7 @@ After running this `Dockerfile` you will have:
 - PHP 7.0
 - Apache 2.4
 - Magento 2.1.x
+- Mageplaza Blog 2.4.x
 - Composer
 - Node
 - Grunt
