@@ -52,20 +52,17 @@ RUN docker-php-ext-install bz2 soap calendar iconv intl xsl mbstring mcrypt mysq
     && npm install -g grunt-cli \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Clone Magento 2.1
+# Clone Magento 2.1.x
 RUN cd /var/www \
     && rm -rf html \
     && git clone -b 2.1 --single-branch --verbose https://github.com/magento/magento2.git html \
     && chsh -s /bin/bash www-data \
     && chown -R www-data:www-data /var/www \
     && su www-data -c "cd /var/www/html && composer install" \
-    && su www-data -c "cd /var/www/html && composer require mageplaza/magento-2-blog-extension:2.4.6" \
     && cd /var/www/html \
     && chmod u+x bin/magento \
-    && mv package.json.sample package.json \
-    && npm install \
-    && mv Gruntfile.js.sample Gruntfile.js \
-    && grunt
+    && mv package.json.sample package.json && npm install \
+    && mv Gruntfile.js.sample Gruntfile.js && grunt
 
 # Script to automate magento setup:install
 COPY ./install.sh /var/www/html/
