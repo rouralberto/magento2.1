@@ -66,8 +66,3 @@ RUN cd /var/www \
     && npm install \
     && mv Gruntfile.js.sample Gruntfile.js \
     && grunt
-
-# Installation script as CMD
-ADD ./install.sh /install.sh
-RUN chmod +x /install.sh
-CMD bash -C '/install.sh'; 'bash'

@@ -39,4 +39,5 @@ You'll need a database running on `MySQL 5.6+`, as this container only has the `
 ### How to run
 - Add `magento2.docker` at the end of your `/etc/hosts` file (i.e., `127.0.0.1 magento2.docker`)
 - Run `docker-compose build && docker-compose up -d`
+- SSH into the container and run the installation as per how-to of Magento. (`/var/www/html/bin/magento setup:install`)
 - Visit your newly-created [magento2.docker](http://magento2.docker/)
