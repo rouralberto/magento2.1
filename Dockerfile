@@ -52,10 +52,10 @@ RUN docker-php-ext-install bz2 soap calendar iconv intl xsl mbstring mcrypt mysq
     && npm install -g grunt-cli \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Clone Magento 2.1.7
+# Clone Magento 2.1.x
 RUN cd /var/www \
     && rm -rf html \
-    && git clone -b 2.1.7 --single-branch --verbose https://github.com/magento/magento2.git html \
+    && git clone -b 2.1 --single-branch --verbose https://github.com/magento/magento2.git html \
     && chsh -s /bin/bash www-data \
     && chown -R www-data:www-data /var/www \
     && su www-data -c "cd /var/www/html && composer install" \
