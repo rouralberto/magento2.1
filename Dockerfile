@@ -59,16 +59,15 @@ RUN cd /var/www \
     && chsh -s /bin/bash www-data \
     && chown -R www-data:www-data /var/www \
     && su www-data -c "cd /var/www/html && composer install" \
+    && su www-data -c "cd /var/www/html && composer require mageplaza/magento-2-blog-extension" \
     && cd /var/www/html \
     && chmod u+x bin/magento \
-    && mv package.json.sample package.json && npm install \
-    && mv Gruntfile.js.sample Gruntfile.js && grunt
+    && mv package.json.sample package.json \
+    && npm install \
+    && mv Gruntfile.js.sample Gruntfile.js \
+    && grunt
 
-# Script to automate magento setup:install
-COPY ./install.sh /var/www/html/
-
-# Script to automate a complete static files refresh
-COPY ./publish-static.sh /var/www/html/
-
-# Write proper permissions to scripts
-RUN chmod u+x install.sh publish-static.sh
+# Installation script as CMD
+ADD ./install.sh /install.sh
+RUN chmod +x /install.sh
+CMD bash -C '/install.sh'; 'bash'
