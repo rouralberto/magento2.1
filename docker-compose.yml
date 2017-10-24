@@ -1,4 +1,4 @@
-version: '3.2'
+version: '3.3'
 
 services:
   web:
@@ -8,13 +8,6 @@ services:
     hostname: magento2
     ports:
       - target: 80
-      - published: 80
-      - protocol: tcp
-      - mode: host
-    environment:
-      - DEBIAN_FRONTEND=noninteractive
-      - COMPOSER_HOME=/root/composer
-      - MAGE_VER=2.1.1
-      - MAGENTO_URL=http://magento2.docker
-      - MAGENTO_ADMIN_URI=admin
-      - USE_REWRITE=1
+        published: 80
+        protocol: tcp
+        mode: host
