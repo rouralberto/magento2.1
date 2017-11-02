@@ -13,5 +13,5 @@ RUN cd /var/www \
 
 ADD ./config/config.php /var/www/html/app/etc/config.php
 
-RUN chown www-data:www-data /var/www/html/app/etc/config.php
+RUN chown www-data:www-data /var/www/html/app/etc/config.php \
     && chown --recursive www-data:www-data /var/www
