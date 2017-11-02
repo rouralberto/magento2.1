@@ -9,5 +9,9 @@ RUN cd /var/www \
     && composer require mageplaza/magento-2-banner-slider-extension \
     && chmod u+x bin/magento \
     && mv package.json.sample package.json && npm install \
-    && mv Gruntfile.js.sample Gruntfile.js && grunt \
+    && mv Gruntfile.js.sample Gruntfile.js && grunt
+
+ADD ./config/config.php /var/www/html/app/etc/config.php
+
+RUN chown www-data:www-data /var/www/html/app/etc/config.php
     && chown --recursive www-data:www-data /var/www
