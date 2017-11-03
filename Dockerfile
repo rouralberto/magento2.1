@@ -11,7 +11,7 @@ RUN cd /var/www \
     && mv package.json.sample package.json && npm install \
     && mv Gruntfile.js.sample Gruntfile.js && grunt
 
+ADD ./env.php /var/www/html/app/etc/env.php
 ADD ./config.php /var/www/html/app/etc/config.php
 
-RUN chown www-data:www-data /var/www/html/app/etc/config.php \
-    && chown --recursive www-data:www-data /var/www
+RUN chown --recursive www-data:www-data /var/www
