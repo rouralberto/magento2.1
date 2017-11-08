@@ -1,5 +1,5 @@
 # Magento 2.1.x Dockerfile
-- Based on [php:7.0-apache](https://github.com/docker-library/php/blob/ddc7084c8a78ea12f0cfdceff7d03c5a530b787e/7.0/apache/Dockerfile).
+- Based on [roura/php-magento](https://hub.docker.com/r/roura/php-magento/).
 
 [![](https://images.microbadger.com/badges/image/roura/magento2.1.svg)](https://microbadger.com/images/roura/magento2.1)
 [![](https://images.microbadger.com/badges/version/roura/magento2.1.svg)](https://microbadger.com/images/roura/magento2.1)
