@@ -1,5 +1,4 @@
 FROM roura/php-magento:7.0
-MAINTAINER Alberto Roura <mail@albertoroura.com>
 
 # Clone 2.1 branch
 RUN cd /var/www \
@@ -11,8 +10,8 @@ RUN cd /var/www \
     && mv package.json.sample package.json && npm install \
     && mv Gruntfile.js.sample Gruntfile.js && grunt
 
-ADD ./env.php /var/www/html/app/etc/
-ADD ./config.php /var/www/html/app/etc/
-ADD ./.htaccess /var/www/html/
+ADD env.php /var/www/html/app/etc
+ADD config.php /var/www/html/app/etc
+ADD .htaccess /var/www/html
 
 RUN chown --recursive www-data:www-data /var/www

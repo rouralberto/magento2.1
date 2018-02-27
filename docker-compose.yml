@@ -1,13 +1,9 @@
-version: '3.3'
+version: '3.5'
 
 services:
   web:
     build:
       context: .
-    domainname: magento2.docker
     hostname: magento2
     ports:
-      - target: 80
-        published: 80
-        protocol: tcp
-        mode: host
+      - "80:80"
