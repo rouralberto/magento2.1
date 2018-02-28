@@ -1,11 +1,6 @@
 # All explanations you could find in .htaccess.sample file
 DirectoryIndex index.php
 <IfModule mod_php7.c>
-    php_value memory_limit 1024M
-    php_value max_execution_time 18000
-    php_value max_input_time 6000
-    php_value post_max_size 128M
-    php_value upload_max_filesize 32M
     php_flag session.auto_start off
     php_flag suhosin.session.cryptua off
 </IfModule>
