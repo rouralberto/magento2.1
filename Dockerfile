@@ -10,8 +10,16 @@ RUN cd /var/www \
     && mv package.json.sample package.json && npm install \
     && mv Gruntfile.js.sample Gruntfile.js && grunt
 
+COPY cron.sh /var/www/html/
 COPY env.php /var/www/html/app/etc
 COPY config.php /var/www/html/app/etc
 COPY .htaccess /var/www/html
+
+# Setup cron job
+RUN touch /var/spool/cron/crontabs/root \
+    && crontab -l > newcron \
+    && echo "* * * * * /var/www/html/cron.sh" >> newcron \
+    && crontab newcron \
+    && rm newcron
 
 RUN chown --recursive www-data:www-data /var/www
