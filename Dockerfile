@@ -14,10 +14,4 @@ COPY env.php /var/www/html/app/etc
 COPY config.php /var/www/html/app/etc
 COPY .htaccess /var/www/html
 
-# Setup cron job
-RUN crontab -l > /tmp/newcron \
-    && echo "* * * * * /usr/local/bin/php /var/www/html/bin/magento cron:run | grep -v \"Ran jobs by schedule\" >> /var/www/html/var/log/magento.cron.log" >> /tmp/newcron \
-    && crontab /tmp/newcron \
-    && rm /tmp/newcron
-
 RUN chown --recursive www-data:www-data /var/www
